@@ -4,7 +4,7 @@ Show your GitHub commit records in 3D with `ARKit` and `SceneKit`.
 
 # Preview
 
-![]()
+![](https://github.com/songkuixi/ARGitHubCommits/blob/master/ScreenShot.png)
 
 # Requirement
 
@@ -17,5 +17,4 @@ Show your GitHub commit records in 3D with `ARKit` and `SceneKit`.
 [arkit-tictactoe](https://github.com/bjarnel/arkit-tictactoe)
 
 [GitHubContributionsiOS](https://github.com/JustinFincher/GitHubContributionsiOS)
-
 
