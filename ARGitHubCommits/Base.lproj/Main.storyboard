@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.17" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="oYO-3Y-PV3">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.14"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--InputViewController-->
+        <scene sceneID="h5A-fk-jYa">
+            <objects>
+                <viewController storyboardIdentifier="InputViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="oYO-3Y-PV3" userLabel="InputViewController" customClass="InputViewController" customModule="ARGitHubCommits" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Btv-xy-YW5"/>
+                        <viewControllerLayoutGuide type="bottom" id="hfF-xc-F3l"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tV0-dr-SRC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your GitHub username" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="MHS-R2-Kl9">
+                                <rect key="frame" x="66" y="70" width="243" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="agq-aQ-4Gc"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lop-lT-ac4">
+                                <rect key="frame" x="157.5" y="165" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="oSd-SU-Ciw"/>
+                                    <constraint firstAttribute="width" constant="60" id="y1I-nZ-EDk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="GO"/>
+                                <connections>
+                                    <action selector="gotoARAction" destination="oYO-3Y-PV3" eventType="touchUpInside" id="6De-7S-9Qa"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Q8i-5A-Yk6">
+                                <rect key="frame" x="237.5" y="185" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="lop-lT-ac4" firstAttribute="top" secondItem="MHS-R2-Kl9" secondAttribute="bottom" constant="50" id="A86-Xq-fJW"/>
+                            <constraint firstItem="Q8i-5A-Yk6" firstAttribute="leading" secondItem="lop-lT-ac4" secondAttribute="trailing" constant="20" id="HLO-V0-19e"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="MHS-R2-Kl9" secondAttribute="trailing" constant="50" id="IVg-bE-0Wy"/>
+                            <constraint firstItem="MHS-R2-Kl9" firstAttribute="centerX" secondItem="tV0-dr-SRC" secondAttribute="centerX" id="KqW-jg-Ycf"/>
+                            <constraint firstItem="MHS-R2-Kl9" firstAttribute="leading" secondItem="tV0-dr-SRC" secondAttribute="leadingMargin" constant="50" id="Snr-j3-3ux"/>
+                            <constraint firstItem="lop-lT-ac4" firstAttribute="centerX" secondItem="tV0-dr-SRC" secondAttribute="centerX" id="Vzd-aI-1DZ"/>
+                            <constraint firstItem="Q8i-5A-Yk6" firstAttribute="centerY" secondItem="lop-lT-ac4" secondAttribute="centerY" id="jRA-Of-uyq"/>
+                            <constraint firstItem="MHS-R2-Kl9" firstAttribute="top" secondItem="Btv-xy-YW5" secondAttribute="bottom" constant="50" id="tul-do-9OY"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="goButton" destination="lop-lT-ac4" id="Tcr-aX-hX2"/>
+                        <outlet property="indicator" destination="Q8i-5A-Yk6" id="IaM-gc-bFa"/>
+                        <outlet property="usernameTextField" destination="MHS-R2-Kl9" id="04m-iY-370"/>
+                        <segue destination="BV1-FR-VrT" kind="show" identifier="arSegue" id="SUD-qF-T5X"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="em0-4l-9SD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-711" y="69"/>
+        </scene>
+        <!--ViewController-->
+        <scene sceneID="tXr-a1-R10">
+            <objects>
+                <viewController storyboardIdentifier="ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BV1-FR-VrT" userLabel="ViewController" customClass="ViewController" customModule="ARGitHubCommits" customModuleProvider="target" sceneMemberID="viewController">
+                    <arscnView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="BrB-h1-WRS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </arscnView>
+                    <connections>
+                        <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="145" y="69"/>
+        </scene>
+    </scenes>
+</document>
