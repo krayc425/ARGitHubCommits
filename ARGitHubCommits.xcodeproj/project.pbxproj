@@ -15,8 +15,8 @@
 		2404CAB71F2F50F200C2C6A0 /* GitHubCommitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2404CAB61F2F50F100C2C6A0 /* GitHubCommitData.swift */; };
 		2404CAB91F2F50FE00C2C6A0 /* GitHubCommitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2404CAB81F2F50FE00C2C6A0 /* GitHubCommitHelper.swift */; };
 		2404CABD1F2F7C4F00C2C6A0 /* Media.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 2404CABC1F2F7C4C00C2C6A0 /* Media.scnassets */; };
-		2404CABF1F2F7DB300C2C6A0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2404CABE1F2F7DB300C2C6A0 /* Extensions.swift */; };
 		2404CAC31F2F851A00C2C6A0 /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2404CAC21F2F851A00C2C6A0 /* InputViewController.swift */; };
+		3A2B11B91F304B5D001039CD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B11B81F304B5D001039CD /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,8 +30,8 @@
 		2404CAB61F2F50F100C2C6A0 /* GitHubCommitData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubCommitData.swift; sourceTree = "<group>"; };
 		2404CAB81F2F50FE00C2C6A0 /* GitHubCommitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubCommitHelper.swift; sourceTree = "<group>"; };
 		2404CABC1F2F7C4C00C2C6A0 /* Media.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Media.scnassets; sourceTree = "<group>"; };
-		2404CABE1F2F7DB300C2C6A0 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = "../../../../../Downloads/arkit-tictactoe-master/AR-TicTacToe/Extensions.swift"; sourceTree = "<group>"; };
 		2404CAC21F2F851A00C2C6A0 /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
+		3A2B11B81F304B5D001039CD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				2404CAA21F2F4A4D00C2C6A0 /* AppDelegate.swift */,
-				2404CABE1F2F7DB300C2C6A0 /* Extensions.swift */,
+				3A2B11B81F304B5D001039CD /* Extensions.swift */,
 				2404CAB61F2F50F100C2C6A0 /* GitHubCommitData.swift */,
 				2404CAB81F2F50FE00C2C6A0 /* GitHubCommitHelper.swift */,
 				2404CAC21F2F851A00C2C6A0 /* InputViewController.swift */,
@@ -151,12 +151,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2404CABF1F2F7DB300C2C6A0 /* Extensions.swift in Sources */,
 				2404CAB71F2F50F200C2C6A0 /* GitHubCommitData.swift in Sources */,
 				2404CAA71F2F4A4D00C2C6A0 /* ViewController.swift in Sources */,
 				2404CAC31F2F851A00C2C6A0 /* InputViewController.swift in Sources */,
 				2404CAA31F2F4A4D00C2C6A0 /* AppDelegate.swift in Sources */,
 				2404CAB91F2F50FE00C2C6A0 /* GitHubCommitHelper.swift in Sources */,
+				3A2B11B91F304B5D001039CD /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
