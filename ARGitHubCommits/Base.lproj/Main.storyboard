@@ -42,25 +42,19 @@
                                     <action selector="gotoARAction" destination="oYO-3Y-PV3" eventType="touchUpInside" id="6De-7S-9Qa"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Q8i-5A-Yk6">
-                                <rect key="frame" x="237.5" y="185" width="20" height="20"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="lop-lT-ac4" firstAttribute="top" secondItem="MHS-R2-Kl9" secondAttribute="bottom" constant="50" id="A86-Xq-fJW"/>
-                            <constraint firstItem="Q8i-5A-Yk6" firstAttribute="leading" secondItem="lop-lT-ac4" secondAttribute="trailing" constant="20" id="HLO-V0-19e"/>
                             <constraint firstAttribute="trailingMargin" secondItem="MHS-R2-Kl9" secondAttribute="trailing" constant="50" id="IVg-bE-0Wy"/>
                             <constraint firstItem="MHS-R2-Kl9" firstAttribute="centerX" secondItem="tV0-dr-SRC" secondAttribute="centerX" id="KqW-jg-Ycf"/>
                             <constraint firstItem="MHS-R2-Kl9" firstAttribute="leading" secondItem="tV0-dr-SRC" secondAttribute="leadingMargin" constant="50" id="Snr-j3-3ux"/>
                             <constraint firstItem="lop-lT-ac4" firstAttribute="centerX" secondItem="tV0-dr-SRC" secondAttribute="centerX" id="Vzd-aI-1DZ"/>
-                            <constraint firstItem="Q8i-5A-Yk6" firstAttribute="centerY" secondItem="lop-lT-ac4" secondAttribute="centerY" id="jRA-Of-uyq"/>
                             <constraint firstItem="MHS-R2-Kl9" firstAttribute="top" secondItem="Btv-xy-YW5" secondAttribute="bottom" constant="50" id="tul-do-9OY"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="goButton" destination="lop-lT-ac4" id="Tcr-aX-hX2"/>
-                        <outlet property="indicator" destination="Q8i-5A-Yk6" id="IaM-gc-bFa"/>
                         <outlet property="usernameTextField" destination="MHS-R2-Kl9" id="04m-iY-370"/>
                         <segue destination="BV1-FR-VrT" kind="show" identifier="arSegue" id="SUD-qF-T5X"/>
                     </connections>

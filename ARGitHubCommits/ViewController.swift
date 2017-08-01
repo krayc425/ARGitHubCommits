@@ -208,7 +208,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let material = SCNMaterial()
             material.diffuse.contents = commitData.color
             box.materials = [material]
-            node.position = SCNVector3Make(Float(i) * 1.5 * Float(factor), Float(box.height) / 2.0, Float(count + (i - totalCount) / 7) * 1.5 * Float(factor))
+            node.position = SCNVector3Make(Float(i % 7) * 1.5 * Float(factor), Float(box.height) / 2.0, Float(count + (i - totalCount) / 7) * 1.5 * Float(factor))
             
             print(totalCount)
             print(box.description)

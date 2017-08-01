@@ -12,14 +12,11 @@ class InputViewController: UIViewController {
     
     @IBOutlet var usernameTextField: UITextField!
     @IBOutlet var goButton: UIButton!
-    @IBOutlet var indicator: UIActivityIndicatorView!
     
     var commits: [GitHubCommitData]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        indicator.isHidden = true
         // Do any additional setup after loading the view.
     }
 
@@ -29,21 +26,11 @@ class InputViewController: UIViewController {
     }
     
     @IBAction func gotoARAction() {
-        DispatchQueue.main.async {
-            self.indicator.isHidden = false
-            self.indicator.startAnimating()
-        }
-        
         guard usernameTextField.text!.characters.count > 0 else {
             let alertC = UIAlertController(title: "Please enter a username", message: nil, preferredStyle: .alert)
             let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alertC.addAction(alertAction)
             self.present(alertC, animated: true, completion: nil)
-            
-            DispatchQueue.main.async {
-                self.indicator.stopAnimating()
-                self.indicator.isHidden = true
-            }
             
             return
         }
@@ -57,17 +44,7 @@ class InputViewController: UIViewController {
             alertC.addAction(alertAction)
             self.present(alertC, animated: true, completion: nil)
             
-            DispatchQueue.main.async {
-                self.indicator.stopAnimating()
-                self.indicator.isHidden = true
-            }
-            
             return
-        }
-        
-        DispatchQueue.main.async {
-            self.indicator.stopAnimating()
-            self.indicator.isHidden = true
         }
         
         self.performSegue(withIdentifier: "arSegue", sender: commits!)
