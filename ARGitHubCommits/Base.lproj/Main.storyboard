@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.17" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="oYO-3Y-PV3">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -18,11 +18,11 @@
                         <viewControllerLayoutGuide type="bottom" id="hfF-xc-F3l"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="tV0-dr-SRC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your GitHub username" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="MHS-R2-Kl9">
-                                <rect key="frame" x="66" y="70" width="243" height="45"/>
+                                <rect key="frame" x="70" y="70" width="274" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="agq-aQ-4Gc"/>
                                 </constraints>
@@ -31,7 +31,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lop-lT-ac4">
-                                <rect key="frame" x="157.5" y="165" width="60" height="60"/>
+                                <rect key="frame" x="177" y="165" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="oSd-SU-Ciw"/>
                                     <constraint firstAttribute="width" constant="60" id="y1I-nZ-EDk"/>
@@ -50,7 +50,7 @@
                             <constraint firstItem="MHS-R2-Kl9" firstAttribute="centerX" secondItem="tV0-dr-SRC" secondAttribute="centerX" id="KqW-jg-Ycf"/>
                             <constraint firstItem="MHS-R2-Kl9" firstAttribute="leading" secondItem="tV0-dr-SRC" secondAttribute="leadingMargin" constant="50" id="Snr-j3-3ux"/>
                             <constraint firstItem="lop-lT-ac4" firstAttribute="centerX" secondItem="tV0-dr-SRC" secondAttribute="centerX" id="Vzd-aI-1DZ"/>
-                            <constraint firstItem="MHS-R2-Kl9" firstAttribute="top" secondItem="Btv-xy-YW5" secondAttribute="bottom" constant="50" id="tul-do-9OY"/>
+                            <constraint firstItem="MHS-R2-Kl9" firstAttribute="top" secondItem="tV0-dr-SRC" secondAttribute="top" constant="70" id="tul-do-9OY"/>
                         </constraints>
                     </view>
                     <connections>
@@ -68,7 +68,7 @@
             <objects>
                 <viewController storyboardIdentifier="ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BV1-FR-VrT" userLabel="ViewController" customClass="ViewController" customModule="ARGitHubCommits" customModuleProvider="target" sceneMemberID="viewController">
                     <arscnView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="BrB-h1-WRS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </arscnView>
                     <connections>

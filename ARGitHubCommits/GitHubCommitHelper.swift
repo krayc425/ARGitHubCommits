@@ -45,9 +45,9 @@ class GitHubCommitHelper {
         
         let nsWebData = NSString(string: webData)
         for item in matched {
-            let colorString = nsWebData.substring(with: item.range(at:2))
-            let data = nsWebData.substring(with: item.range(at:4))
-            let dateString = nsWebData.substring(with: item.range(at:6))
+            let colorString = nsWebData.substring(with: item.rangeAt(2))
+            let data = nsWebData.substring(with: item.rangeAt(4))
+            let dateString = nsWebData.substring(with: item.rangeAt(6))
             
             let itemData = GitHubCommitData(date: dateFormatter.date(from: dateString)!,
                                             color: colorFrom(hexString: colorString),
