@@ -14,7 +14,7 @@ class GitHubCommitData: CustomStringConvertible {
     var color: UIColor
     var count: Int
     
-    var dateFormatter: DateFormatter {
+    static var dateFormatter: DateFormatter {
         get {
             let newDateFormatter = DateFormatter()
             newDateFormatter.timeZone = TimeZone(identifier: "UTC")
@@ -24,7 +24,7 @@ class GitHubCommitData: CustomStringConvertible {
     }
     
     var dateString: String {
-        return dateFormatter.string(from: date)
+        return GitHubCommitData.dateFormatter.string(from: date)
     }
     
     var description: String {

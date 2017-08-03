@@ -14,7 +14,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     var floorNode: SCNNode?
-    var currentPlane:SCNNode?
+    var currentPlane: SCNNode?
     var planeCount = 0 {
         didSet {
             if planeCount > 0 {
@@ -84,7 +84,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             floor.reflectivity = 0
             let material = SCNMaterial()
             material.diffuse.contents = UIColor.white
-            
             material.colorBufferWriteMask = SCNColorMask(rawValue: 0)
             floor.materials = [material]
             
@@ -113,15 +112,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.scene.lightingEnvironment.intensity = intensity
     }
     
-    // MARK: - ARSCNViewDelegate
-    
     private func anyPlaneFrom(location:CGPoint) -> (SCNNode, SCNVector3)? {
         let results = sceneView.hitTest(location, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
         
         guard results.count > 0,
             let anchor = results[0].anchor,
             let node = sceneView.node(for: anchor) else {
-                
                 let alertC = UIAlertController(title: "Try another point", message: nil, preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alertC.addAction(alertAction)
