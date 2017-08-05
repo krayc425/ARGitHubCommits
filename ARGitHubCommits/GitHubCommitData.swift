@@ -9,31 +9,19 @@
 import Foundation
 import UIKit
 
-class GitHubCommitData: CustomStringConvertible {
-    var date: Date
-    var color: UIColor
-    var count: Int
-    
-    static var dateFormatter: DateFormatter {
-        get {
-            let newDateFormatter = DateFormatter()
-            newDateFormatter.timeZone = TimeZone(identifier: "UTC")
-            newDateFormatter.dateFormat = "yyyy-MM-dd"
-            return newDateFormatter
-        }
-    }
-    
+struct GitHubCommitData {
+    let date: Date
+    let color: UIColor
+    let count: Int
+}
+
+extension GitHubCommitData: CustomStringConvertible {
     var dateString: String {
-        return GitHubCommitData.dateFormatter.string(from: date)
+        let formatter = GitHubCommitHelper.sharedInstance.dateFormatter
+        return formatter.string(from: date)
     }
     
     var description: String {
-        return "On \(dateString), with \(count) commits in color \(color.description)."
-    }
-    
-    init(date: Date, color: UIColor, count: Int) {
-        self.date = date
-        self.color = color
-        self.count = count
+        return "On \(dateString), with \(count) commits in color \(color)."
     }
 }
