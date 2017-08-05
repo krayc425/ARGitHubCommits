@@ -11,21 +11,19 @@ import SceneKit
 import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
-
+    
     @IBOutlet var sceneView: ARSCNView!
-    var floorNode: SCNNode?
+    var floorNode: SCNNode!
     var currentPlane: SCNNode?
     var planeCount = 0 {
         didSet {
             if planeCount > 0 {
-                let alertC = UIAlertController(title: "Found a plane, touch here", message: nil, preferredStyle: .alert)
-                let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                alertC.addAction(alertAction)
-                self.present(alertC, animated: true, completion: nil)
+                alert(message: "Found a plane, touch here")
             }
         }
     }
-    var commits: [GitHubCommitData]? = [GitHubCommitData]()
+    
+    var commits: [GitHubCommitData]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,10 +54,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Run the view's session
         sceneView.session.run(configuration)
         
-        let alertC = UIAlertController(title: "Move your phone around to find a plane", message: nil, preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertC.addAction(alertAction)
-        self.present(alertC, animated: true, completion: nil)
+        alert(message: "Move your phone around to find a plane")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -69,60 +64,42 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.session.pause()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
-    @objc func didTap(_ sender:UITapGestureRecognizer) {
+    @objc func didTap(_ sender: UITapGestureRecognizer) {
+        guard currentPlane == nil else { return }
         let location = sender.location(in: sceneView)
+        guard let commits = commits,
+            let (plane, position) = anyPlaneFrom(location: location)
+            else { return }
         
-        guard let _ = currentPlane else {
-            guard let newPlaneData = anyPlaneFrom(location: location) else { return }
-            
-            let floor = SCNFloor()
-            floor.reflectivity = 0
-            let material = SCNMaterial()
-            material.diffuse.contents = UIColor.white
-            material.colorBufferWriteMask = SCNColorMask(rawValue: 0)
-            floor.materials = [material]
-            
-            floorNode = SCNNode(geometry: floor)
-            floorNode!.position = newPlaneData.1
-            sceneView.scene.rootNode.addChildNode(floorNode!)
-            
-            self.currentPlane = newPlaneData.0
-            
-            guard self.commits != nil else {
-                return
-            }
-            
-            sceneView.scene = createScene(with: self.commits!, at: newPlaneData.1)
-            
-            return
-        }
+        let floor = SCNFloor()
+        floor.reflectivity = 0
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor.white
+        material.colorBufferWriteMask = SCNColorMask(rawValue: 0)
+        floor.materials = [material]
+        
+        floorNode = SCNNode(geometry: floor)
+        floorNode.position = position
+        sceneView.scene.rootNode.addChildNode(floorNode)
+        
+        currentPlane = plane
+        sceneView.scene = createScene(with: commits, at: position)
     }
     
-    func enableEnvironmentMapWithIntensity(_ intensity: CGFloat) {
-        if sceneView.scene.lightingEnvironment.contents == nil {
-            if let environmentMap = UIImage(named: "Media.scnassets/environment_blur.exr") {
-                sceneView.scene.lightingEnvironment.contents = environmentMap
-            }
+    func enableEnvironmentMap(withIntensity intensity: CGFloat) {
+        if sceneView.scene.lightingEnvironment.contents == nil,
+            let environmentMap = UIImage(named: "Media.scnassets/environment_blur.exr") {
+            sceneView.scene.lightingEnvironment.contents = environmentMap
         }
         sceneView.scene.lightingEnvironment.intensity = intensity
     }
     
-    private func anyPlaneFrom(location:CGPoint) -> (SCNNode, SCNVector3)? {
-        let results = sceneView.hitTest(location, types: ARHitTestResult.ResultType.existingPlaneUsingExtent)
-        
+    private func anyPlaneFrom(location: CGPoint) -> (plane: SCNNode, position: SCNVector3)? {
+        let results = sceneView.hitTest(location, types: .existingPlaneUsingExtent)
         guard results.count > 0,
             let anchor = results[0].anchor,
             let node = sceneView.node(for: anchor) else {
-                let alertC = UIAlertController(title: "Try another point", message: nil, preferredStyle: .alert)
-                let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                alertC.addAction(alertAction)
-                self.present(alertC, animated: true, completion: nil)
-                
+                alert(message: "Try another point")
                 return nil
         }
         return (node, SCNVector3.positionFromTransform(results[0].worldTransform))
@@ -131,19 +108,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // MARK: - ARSCNViewDelegate
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        // from apples app
-        DispatchQueue.main.async {
-            if let lightEstimate = self.sceneView.session.currentFrame?.lightEstimate {
-                self.enableEnvironmentMapWithIntensity(lightEstimate.ambientIntensity / 50)
+        // from Apple's app
+        DispatchQueue.main.async { [weak self] in
+            if let lightEstimate = self?.sceneView.session.currentFrame?.lightEstimate {
+                self?.enableEnvironmentMap(withIntensity: lightEstimate.ambientIntensity / 50)
             } else {
-                self.enableEnvironmentMapWithIntensity(25)
+                self?.enableEnvironmentMap(withIntensity: 25)
             }
         }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         if planeCount == 0 {
-            planeCount += 1
+            planeCount = 1
         }
     }
     
@@ -157,7 +134,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         light.color = UIColor(white: 1.0, alpha: 0.2)
         light.shadowColor = UIColor(white: 0.0, alpha: 0.8).cgColor
         let lightNode = SCNNode()
-        lightNode.eulerAngles = SCNVector3Make(-Float.pi / 3, Float.pi / 4, 0)
+        lightNode.eulerAngles = SCNVector3Make(-.pi / 3, .pi / 4, 0)
         lightNode.light = light
         scnScene.rootNode.addChildNode(lightNode)
         
@@ -168,12 +145,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         ambientNode.light = ambientLight
         scnScene.rootNode.addChildNode(ambientNode)
         
-        let factor = 0.03
-        let count = 52
+        let factor: Float = 0.03
+        let count = (commits.count + 6) / 7
         
         let barNode = SCNNode()
         barNode.name = "barNode"
-        barNode.position = SCNVector3(position.x, position.y, position.z - Float(count) * 0.75 * Float(factor))
+        barNode.position = SCNVector3(position.x, position.y, position.z - Float(count) * 0.75 * factor)
         
         scnScene.rootNode.addChildNode(barNode)
         
@@ -181,13 +158,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         for weekFromNow in 0..<count {
             for i in 0...6 {
                 totalCount += 1
+                guard totalCount <= commits.count else { return scnScene }
+                
                 let commitData = commits[weekFromNow * 7 + i]
                 let box = SCNBox(width: CGFloat(factor), height: CGFloat(factor) * (CGFloat(commitData.count) + 1.0), length: CGFloat(factor), chamferRadius: 0.0)
                 let node = SCNNode(geometry: box)
                 let material = SCNMaterial()
                 material.diffuse.contents = commitData.color
                 box.materials = [material]
-                node.position = SCNVector3Make(Float(i) * 1.5 * Float(factor), Float(box.height) / 2.0, Float(weekFromNow) * 1.5 * Float(factor))
+                node.position = SCNVector3Make(Float(i) * 1.5 * factor, Float(box.height) / 2.0, Float(weekFromNow) * 1.5 * factor)
                 
                 print(totalCount)
                 print(box.description)
@@ -195,22 +174,6 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 
                 barNode.addChildNode(node)
             }
-        }
-        for i in totalCount..<commits.count {
-            totalCount += 1
-            let commitData = commits[i]
-            let box = SCNBox(width: CGFloat(factor), height: CGFloat(factor) * (CGFloat(commitData.count) + 1.0), length: CGFloat(factor), chamferRadius: 0.0)
-            let node = SCNNode(geometry: box)
-            let material = SCNMaterial()
-            material.diffuse.contents = commitData.color
-            box.materials = [material]
-            node.position = SCNVector3Make(Float(i % 7) * 1.5 * Float(factor), Float(box.height) / 2.0, Float(count + (i - totalCount) / 7) * 1.5 * Float(factor))
-            
-            print(totalCount)
-            print(box.description)
-            print(node.position)
-            
-            barNode.addChildNode(node)
         }
         
         return scnScene

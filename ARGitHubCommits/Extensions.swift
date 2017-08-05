@@ -15,8 +15,40 @@ extension FloatingPoint {
 }
 
 extension SCNVector3 {
-    // from Apples demo APP
+    // from Apple's demo APP
     static func positionFromTransform(_ transform: matrix_float4x4) -> SCNVector3 {
         return SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
+    }
+}
+
+//
+//  Extensions.swift
+//  ARGitHubCommits
+//
+//  Created by 宋 奎熹 on 2017/7/31.
+//  Copyright © 2017年 宋 奎熹. All rights reserved.
+//
+
+import UIKit
+
+extension UIColor {
+    convenience init(hexString string: String) {
+        var rgbValue: UInt32 = 0
+        let scanner = Scanner(string: string)
+        scanner.scanLocation = 1
+        scanner.scanHexInt32(&rgbValue)
+        let red = CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0
+        let green = CGFloat((rgbValue & 0xFF00) >> 8) / 255.0
+        let blue = CGFloat(rgbValue & 0xFF) / 255.0
+        self.init(red: red, green: green, blue: blue, alpha: 1.0)
+    }
+}
+
+extension UIViewController {
+    func alert(message: String) {
+        let alertController = UIAlertController(title: message, message: nil, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(alertAction)
+        present(alertController, animated: true, completion: nil)
     }
 }
