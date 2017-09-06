@@ -17,13 +17,18 @@ class InputViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameTextField.text = UserDefaults.standard.string(forKey: "username")
-        automaticSwitch.setOn(UserDefaults.standard.bool(forKey: "automatic"), animated: true)
         
+        automaticSwitch.setOn(UserDefaults.standard.bool(forKey: "automatic"), animated: true)
         automaticSwitch.addTarget(self, action: #selector(switchChange), for: .valueChanged)
+        automaticSwitch.onTintColor = .myYellowColor
         
         goButton.layer.cornerRadius = 3.0
         goButton.layer.masksToBounds = true
-        goButton.backgroundColor = UIColor.init(red: 250.0/255.0, green: 207.0/255.0, blue: 93.0/255.0, alpha: 1.0)
+        goButton.backgroundColor = .myYellowColor
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     @IBAction func gotoARAction() {
