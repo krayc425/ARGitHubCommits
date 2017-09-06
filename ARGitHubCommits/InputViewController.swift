@@ -11,11 +11,19 @@ import UIKit
 class InputViewController: UIViewController {
     
     @IBOutlet var usernameTextField: UITextField!
+    @IBOutlet var automaticSwitch: UISwitch!
     @IBOutlet var goButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         usernameTextField.text = UserDefaults.standard.string(forKey: "username")
+        automaticSwitch.setOn(UserDefaults.standard.bool(forKey: "automatic"), animated: true)
+        
+        automaticSwitch.addTarget(self, action: #selector(switchChange), for: .valueChanged)
+        
+        goButton.layer.cornerRadius = 3.0
+        goButton.layer.masksToBounds = true
+        goButton.backgroundColor = UIColor.init(red: 250.0/255.0, green: 207.0/255.0, blue: 93.0/255.0, alpha: 1.0)
     }
     
     @IBAction func gotoARAction() {
@@ -33,16 +41,18 @@ class InputViewController: UIViewController {
         performSegue(withIdentifier: "arSegue", sender: commits)
     }
     
+    @objc func switchChange() {
+        UserDefaults.standard.set(automaticSwitch.isOn, forKey: "automatic")
+    }
+    
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
         if segue.identifier == "arSegue",
             let vc = segue.destination as? ViewController,
             let commits = sender as? [GitHubCommitData] {
             vc.commits = commits
+            vc.automaticSetView = self.automaticSwitch.isOn
         }
     }
 }

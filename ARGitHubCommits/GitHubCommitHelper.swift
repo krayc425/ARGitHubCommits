@@ -20,11 +20,10 @@ class GitHubCommitHelper {
         return dateFormatter
     }()
     
-    let pattern = "(fill=\")(#[^\"]{6})(\" data-count=\")([^\"]{1,})(\" data-date=\")([^\"]{10})(\"/>)"
-    
     private lazy var reg: NSRegularExpression = {
+        let pattern = "(fill=\")(#[^\"]{6})(\" data-count=\")([^\"]{1,})(\" data-date=\")([^\"]{10})(\"/>)"
         do {
-            return try NSRegularExpression(pattern: pattern)
+            return try NSRegularExpression(pattern: pattern, options: .dotMatchesLineSeparators)
         } catch {
             fatalError("Regex error")
         }
@@ -42,7 +41,7 @@ class GitHubCommitHelper {
         
         let commitArray: [GitHubCommitData] = matched.map { item in
             func substringForRange(at index: Int) -> String {
-                return webData.substring(with: Range(item.range(at: index), in: webData)!)
+                return webData.substring(with: Range(item.rangeAt(index), in: webData)!)
             }
             let color = UIColor(hexString: substringForRange(at: 2))
             let count = Int(substringForRange(at: 4))!

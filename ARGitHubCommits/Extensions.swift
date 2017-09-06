@@ -16,6 +16,7 @@ extension FloatingPoint {
 
 extension SCNVector3 {
     // from Apple's demo APP
+    // 相机的位置参数在4X4矩阵的第三列（将 ARCamera 的 matrix_float4x4 转换成 SCNVector3）
     static func positionFromTransform(_ transform: matrix_float4x4) -> SCNVector3 {
         return SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
     }
