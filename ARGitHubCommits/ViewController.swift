@@ -17,7 +17,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var currentPlane: SCNNode?
     var planeCount = 0 {
         didSet {
-            if planeCount > 0 && automaticSetView {
+            if planeCount > 0 && !automaticSetView {
                 alert(message: "Found a plane, touch here")
             }
         }
@@ -48,13 +48,27 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Used in 3D games, ignore here
         sceneView.automaticallyUpdatesLighting = false
         
-        let tap = UITapGestureRecognizer()
-        tap.addTarget(self, action: #selector(didTap))
-        sceneView.addGestureRecognizer(tap)
+        if !automaticSetView {
+            let tap = UITapGestureRecognizer()
+            tap.addTarget(self, action: #selector(didTap))
+            sceneView.addGestureRecognizer(tap)
+        }
+            
+        let button = UIButton(frame: CGRect(x: 30, y: 30, width: 60, height: 30))
+        button.backgroundColor = .myYellowColor
+        button.setTitle("Back", for: .normal)
+        button.titleLabel?.font = UIFont(name: "PingFangSC-Regular", size: 15.0)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 4.0
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        self.view.addSubview(button)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.isHidden = true
         
         // Create a session configuration
         let configuration = ARWorldTrackingSessionConfiguration()
@@ -88,6 +102,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         currentPlane = plane
         
         sceneView.scene = createScene(with: commits, at: position)
+    }
+    
+    @objc func backAction() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     func enableEnvironmentMap(withIntensity intensity: CGFloat) {
@@ -142,7 +160,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 planeCount = 1
             }
             
-            if automaticSetView {
+            // ensure that only add 1 plane
+            if currentPlane == nil && automaticSetView {
+                currentPlane = node
                 let planeAnchor = anchor as! ARPlaneAnchor
                 addFloor(at: node, with: SCNVector3.init(planeAnchor.center.x, 0, planeAnchor.center.z))
                 
