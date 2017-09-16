@@ -15,21 +15,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     @IBOutlet var sceneView: ARSCNView!
     var floorNode: SCNNode!
     var currentPlane: SCNNode?
-    var planeCount = 0 {
-        didSet {
-            if planeCount > 0 && !automaticSetView {
-                alert(message: "Found a plane, touch here")
-            }
-        }
-    }
     
-    var commits: [GitHubCommitData]? {
-        didSet {
-            commitWeekCount = (commits!.count + 6) / 7
-        }
+    var commits: [GitHubCommitData]?
+    var commitWeekCount: Int {
+        return (commits!.count + 6) / 7
     }
-    var commitWeekCount = 0
     var commitBarNode: SCNNode?
+
     var automaticSetView = false
     
     let factor: Float = 0.03
@@ -71,7 +63,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         self.navigationController?.navigationBar.isHidden = true
         
         // Create a session configuration
-        let configuration = ARWorldTrackingSessionConfiguration()
+        let configuration = ARWorldTrackingConfiguration()
         // detect horizontal planes
         configuration.planeDetection = .horizontal
         // self-fit light
@@ -96,12 +88,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         guard let commits = commits,
             let (plane, position) = anyPlaneFrom(location: location)
             else { return }
-        
-        addFloor(at: sceneView.scene.rootNode, with: position)
-        
         currentPlane = plane
-        
-        sceneView.scene = createScene(with: commits, at: position)
+
+        createNodes(with: commits, at: SCNVector3(position.x,
+                                                  position.y,
+                                                  position.z - Float(commitWeekCount) * 0.75 * factor), in: sceneView.scene.rootNode)
+
+        addFloor(at: sceneView.scene.rootNode, with: position)
     }
     
     @objc func backAction() {
@@ -156,34 +149,24 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     // called when the ARKit detects a plane
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         if anchor is ARPlaneAnchor {
-            if planeCount == 0 {
-                planeCount = 1
-            }
-            
             // ensure that only add 1 plane
-            if currentPlane == nil && automaticSetView {
-                currentPlane = node
-                let planeAnchor = anchor as! ARPlaneAnchor
-                addFloor(at: node, with: SCNVector3.init(planeAnchor.center.x, 0, planeAnchor.center.z))
-                
-                createNodes(with: commits!, at: SCNVector3(floorNode.position.x,
-                                                           floorNode.position.y,
-                                                           floorNode.position.z - Float(commitWeekCount) * 0.75 * factor), in: node)
+            if automaticSetView {
+                if currentPlane == nil {
+                    currentPlane = node
+                    let planeAnchor = anchor as! ARPlaneAnchor
+                    addFloor(at: node, with: SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z))
+
+                    createNodes(with: commits!, at: SCNVector3(floorNode.position.x,
+                                                               floorNode.position.y,
+                                                               floorNode.position.z - Float(commitWeekCount) * 0.75 * factor), in: node)
+                }
+            } else {
+                alert(message: "Found a plane, touch here")
             }
         }
     }
     
     // MARK: - Scene Builder
-    
-    private func createScene(with commits: [GitHubCommitData], at position: SCNVector3) -> SCNScene {
-        let scnScene = SCNScene()
-        
-        createNodes(with: commits, at: SCNVector3(position.x,
-                                                  position.y,
-                                                  position.z - Float(commitWeekCount) * 0.75 * factor), in: scnScene.rootNode)
-        
-        return scnScene
-    }
     
     private func createNodes(with commits: [GitHubCommitData], at position: SCNVector3, in node: SCNNode) {
         let light = SCNLight()
@@ -220,15 +203,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 let material = SCNMaterial()
                 material.diffuse.contents = commitData.color
                 box.materials = [material]
-                node.position = SCNVector3Make(Float(i) * 1.5 * factor, Float(box.height) / 2.0, Float(weekFromNow) * 1.5 * factor)
+                node.position = SCNVector3(Float(i) * 1.5 * factor, Float(box.height) / 2.0, Float(weekFromNow) * 1.5 * factor)
                 
                 print(totalCount)
                 print(box.description)
                 print(node.position)
-                
+
                 commitBarNode!.addChildNode(node)
             }
         }
+
+        // adjust the angle of the model
+        let pointOfViewRotation = sceneView.pointOfView?.rotation
+        commitBarNode?.rotation = SCNVector4Make(0, (pointOfViewRotation?.y)!, 0, (pointOfViewRotation?.w)!)
     }
     
 }
