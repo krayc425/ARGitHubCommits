@@ -47,7 +47,6 @@ extension UIColor {
     @nonobjc class var myYellowColor: UIColor {
         return UIColor(red: 250.0 / 255.0, green: 207.0 / 255.0, blue: 93.0 / 255.0, alpha: 1.0)
     }
-    
 }
 
 extension UIViewController {
